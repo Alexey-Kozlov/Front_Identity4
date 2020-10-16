@@ -37,8 +37,7 @@ namespace Front
                 options.Cookie.Name = "identity_server_mvc";
             })
             .AddOpenIdConnect("oidc", options =>
-            {
-                
+            {                
                 options.SignInScheme = "Cookies";
                 options.Authority = Configuration.GetSection("ServiceUrls").GetSection("AuthorityApiEndpoint").Value;
                 options.ClientId = "Test";
