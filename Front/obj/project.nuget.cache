@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zSurgR07exnMbFXJKNnBUkE6KEjAEw9Wf2v6OFGwOUkHCJV814v//PsRpcC5CR8kKdt6yD1+adFEIfgQS/dquA==",
+  "dgSpecHash": "UChN6KdtDv9+0DuFGS8PrpwfIuYfOQ69DLsHS7oOCMEKYPMuX9gyU6xPmXEhn8PgSNaGJC3hSIkPi2c5dFOhzg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\akozlov\\source\\repos\\TestAuthentication\\Front\\Front\\Front.csproj",
+  "projectFilePath": "C:\\Users\\akozlov\\source\\repos\\TestAuthentication\\Front_Identity4\\Front\\Front.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\akozlov\\.nuget\\packages\\akdbhelpers\\1.0.1\\akdbhelpers.1.0.1.nupkg.sha512",
     "C:\\Users\\akozlov\\.nuget\\packages\\bootstrap\\4.5.2\\bootstrap.4.5.2.nupkg.sha512",
