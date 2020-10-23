@@ -4,18 +4,23 @@ using IdentityModel.Client;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Front.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Front.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogger _logger;
         private readonly ITestService testService;
-        public HomeController(ITestService _testService)
+        public HomeController(ITestService _testService,
+            ILogger<IdentityController> logger)
         {
             testService = _testService;
+            _logger = logger;
         }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -24,7 +29,7 @@ namespace Front.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Service()
+        public async Task<IActionResult> Service(string user)
         {
 
             //HttpClient httpClient2 = new HttpClient();
@@ -36,17 +41,36 @@ namespace Front.Controllers
             //var ss = response.Result;
             //var ww = Task.Run(async () => await ss.Content.ReadAsStringAsync());
             //var kk = ww.Result;
-            ViewData["Test"] = await testService.TestWebApi(HttpContext,"identity");
+            _logger.LogInformation($"Call home/service, user - {user}");
+            ViewData["Test"] = await testService.TestWebApi(HttpContext,$"identity/{user}");
             return View();
 
         }
-
-
 
         [HttpGet("logout")]
         public IActionResult Logout()
         {
             return SignOut("Cookies", "oidc");
+        }
+
+        [HttpGet("test")]
+        [AllowAnonymous]
+        public IActionResult Test()
+        {
+            HttpClient httpClient2 = new HttpClient();
+            var response = Task.Run(async () => await httpClient2.GetAsync("http://ws-pc-70:5001/.well-known/openid-configuration"));
+            var ss = response.Result;
+            var ww = Task.Run(async () => await ss.Content.ReadAsStringAsync());
+            var kk = ww.Result;
+            ViewData["Test"] = kk;
+            return View("Service");
+        }
+        [HttpGet("test2")]
+        [AllowAnonymous]
+        public IActionResult Test2()
+        {
+            ViewData["Test"] = "test";
+            return View("Service");
         }
     }
 }
