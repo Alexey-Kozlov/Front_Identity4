@@ -6,6 +6,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Front.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Front.Controllers
@@ -63,13 +64,14 @@ namespace Front.Controllers
             var ww = Task.Run(async () => await ss.Content.ReadAsStringAsync());
             var kk = ww.Result;
             ViewData["Test"] = kk;
+            HttpContext.Session.SetString("token",kk);
             return View("Service");
         }
         [HttpGet("test2")]
         [AllowAnonymous]
         public IActionResult Test2()
         {
-            ViewData["Test"] = "test";
+            ViewData["Test"] = HttpContext.Session.GetString("token");
             return View("Service");
         }
     }

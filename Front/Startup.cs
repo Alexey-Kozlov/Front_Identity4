@@ -51,6 +51,7 @@ namespace Front
                 options.SaveTokens = true;
                 options.RequireHttpsMetadata = false;
             });
+            services.AddSession();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddControllersWithViews();
@@ -63,6 +64,7 @@ namespace Front
                 app.UseDeveloperExceptionPage();
             }                     
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
