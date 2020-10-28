@@ -22,6 +22,7 @@ namespace Front
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<ServiceUrlsSettings>(Configuration.GetSection("ServiceUrls"));
             services.AddScoped<ITestService, TestService>();
@@ -48,7 +49,9 @@ namespace Front
                 options.ResponseMode = "query";
                 options.Scope.Add("api");
                 options.SaveTokens = true;
+                options.RequireHttpsMetadata = false;
             });
+            services.AddSession();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddControllersWithViews();
@@ -61,6 +64,7 @@ namespace Front
                 app.UseDeveloperExceptionPage();
             }                     
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();

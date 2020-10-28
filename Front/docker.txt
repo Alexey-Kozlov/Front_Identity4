@@ -1,0 +1,25 @@
+docker cp c:\certificates\auth.crt front:/usr/local/share/ca-certificates/auth.crt
+docker container run -p 5005:5005 --network=auth --name front front
+docker build -t auth .
+docker container run -p 5005:5005 --network=auth --name front --hostname ws-pc-70 --ip=172.20.0.3 --add-host=ws-pc-70:172.20.0.4 --add-host=ws-pc-70:172.20.0.5 front front
+docker container run -p 5001:5001 --network=auth --name auth --hostname ws-pc-70 --ip=172.20.0.4 --add-host=auth:172.20.0.3 auth auth
+docker container run -p 5007:5007 --network=auth --name webapi --hostname ws-pc-70 --ip=172.20.0.5 --add-host=ws-pc-70:172.20.0.3 --add-host=ws-pc-70:172.20.0.4 webapi webapi
+docker container run -p 5008:5008 --network=auth --name front_jwk --hostname ws-pc-70 --ip=172.20.0.6 --add-host=ws-pc-70:172.20.0.4 --add-host=ws-pc-70:172.20.0.5 front_jwt front_jwt
+docker network inspect auth
+docker container inspect front
+docker-compose -p auth up -d
+docker system prune
+
+apt-get update
+apt-get install net-tools
+	ifconfig
+
+apt-get install iputils-ping
+	ping
+
+apt-get install telnet
+	telnet auth 5001
+
+apt-get install mc
+apt-get install links
+openssl s_client -connect www.paypal.com:443
